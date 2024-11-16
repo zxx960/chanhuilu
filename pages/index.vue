@@ -20,7 +20,7 @@
 
       <!-- 信息流列表 -->
       <div class="space-y-4">
-        <div v-for="mood in data?.result || []" :key="mood.id" 
+        <div v-for="mood in moods" :key="mood.id" 
              class="bg-gray-800 rounded-lg p-4 shadow-lg hover:bg-gray-750 transition">
           <p class="text-gray-300 break-words">{{ mood.content }}</p>
           <div class="mt-2 text-sm text-gray-500 flex justify-between items-center">
@@ -58,6 +58,7 @@
 <script setup lang="ts">
 const newPost = ref('')
 const error = ref<string | null>(null)
+const moods = ref([])
 
 // 获取所有数据
 const { data, pending, refresh } = await useFetch('/api/moods', {
@@ -66,6 +67,14 @@ const { data, pending, refresh } = await useFetch('/api/moods', {
     sql: 'SELECT * FROM data ORDER BY id DESC'
   }
 })
+
+// 监听data变化并更新moods
+watch(data, (newData) => {
+  if (newData?.result?.[0]?.results) {
+    moods.value = newData.result[0].results
+    console.log('处理后的数据:', moods.value)
+  }
+}, { immediate: true })
 
 // 添加新内容
 async function addPost() {
