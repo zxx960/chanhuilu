@@ -14,8 +14,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiUrl: process.env.VITE_API_URL,
-      apiToken: process.env.VITE_API_TOKEN
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
+      apiToken: process.env.NUXT_PUBLIC_API_TOKEN
     }
   }
 })

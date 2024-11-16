@@ -9,7 +9,7 @@
     <!-- 主要内容区 -->
     <main class="max-w-2xl mx-auto mb-24">
       <!-- 加载状态 -->
-      <div v-if="loading" class="text-center text-gray-400">
+      <div v-if="pending" class="text-center text-gray-400">
         加载中...
       </div>
       
@@ -20,13 +20,13 @@
 
       <!-- 信息流列表 -->
       <div class="space-y-4">
-        <div v-for="mood in moods" :key="mood.id" 
+        <div v-for="mood in data?.result || []" :key="mood.id" 
              class="bg-gray-800 rounded-lg p-4 shadow-lg hover:bg-gray-750 transition">
           <p class="text-gray-300 break-words">{{ mood.content }}</p>
           <div class="mt-2 text-sm text-gray-500 flex justify-between items-center">
             <span>{{ new Date(mood.created_at).toLocaleString() }}</span>
             <div class="flex items-center space-x-2">
-              <button @click="likePost(mood.id)" 
+              <button @click="likeMood(mood.id)" 
                       class="flex items-center space-x-1 text-purple-400 hover:text-purple-300 transition">
                 <span>❤️</span>
                 <span>{{ mood.likes }}</span>
@@ -47,7 +47,7 @@
                maxlength="200"/>
         <button @click="addPost" 
                 class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                :disabled="!newPost.trim() || loading">
+                :disabled="!newPost.trim() || pending">
           发送
         </button>
       </div>
@@ -56,31 +56,56 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useMoods } from '~/composables/useMoods'
-
-const { moods, loading, error, fetchMoods, addMood, likeMood } = useMoods()
 const newPost = ref('')
+const error = ref<string | null>(null)
 
-// 初始加载数据
-onMounted(() => {
-  fetchMoods()
+// 获取所有数据
+const { data, pending, refresh } = await useFetch('/api/moods', {
+  method: 'POST',
+  body: {
+    sql: 'SELECT * FROM data ORDER BY id DESC'
+  }
 })
 
-// 添加新心情
+// 添加新内容
 async function addPost() {
   if (!newPost.value.trim()) return
   
-  const mood = await addMood(newPost.value)
-  if (mood) {
-    newPost.value = ''
-    await fetchMoods()
+  try {
+    const response = await $fetch('/api/moods', {
+      method: 'POST',
+      body: {
+        sql: `INSERT INTO data (content) VALUES ('${newPost.value}') RETURNING *`
+      }
+    })
+    
+    if (response) {
+      newPost.value = ''
+      refresh()
+    }
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : '发送失败'
+    console.error('添加失败:', e)
   }
 }
 
 // 点赞功能
-async function likePost(id: number) {
-  await likeMood(id)
+async function likeMood(id: number) {
+  try {
+    const response = await $fetch('/api/moods', {
+      method: 'POST',
+      body: {
+        sql: `UPDATE data SET likes = likes + 1 WHERE id = ${id} RETURNING *`
+      }
+    })
+    
+    if (response) {
+      refresh()
+    }
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : '点赞失败'
+    console.error('点赞失败:', e)
+  }
 }
 
 definePageMeta({

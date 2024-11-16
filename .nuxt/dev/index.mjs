@@ -271,9 +271,11 @@ const plugins = [
 _hUhWbJsJq9
 ];
 
+const _lazy_9jqtru = () => Promise.resolve().then(function () { return moods$1; });
 const _lazy_ob6bpI = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
+  { route: '/api/moods', handler: _lazy_9jqtru, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_ob6bpI, lazy: true, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_ob6bpI, lazy: true, middleware: false, method: undefined }
 ];
@@ -706,7 +708,7 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "apiUrl": "http://localhost:8080",
+    "apiUrl": "https://api.cloudflare.com/client/v4/accounts/302809262cd0132cd9f3a9a40653c762/d1/database/3f77138e-6e94-4a90-9190-322c2fd4a6c9",
     "apiToken": "your_token_here"
   }
 };
@@ -978,8 +980,6 @@ function defineRenderHandler(render) {
   });
 }
 
-const r=Object.create(null),i=e=>globalThis.process?.env||globalThis._importMeta_.env||globalThis.Deno?.env.toObject()||globalThis.__env__||(e?r:globalThis),s=new Proxy(r,{get(e,o){return i()[o]??r[o]},has(e,o){const E=i();return o in E||o in r},set(e,o,E){const b=i(!0);return b[o]=E,!0},deleteProperty(e,o){if(!o)return !1;const E=i(!0);return delete E[o],!0},ownKeys(){const e=i(!0);return Object.keys(e)}}),t=typeof process<"u"&&process.env&&"development"||"",B=[["APPVEYOR"],["AWS_AMPLIFY","AWS_APP_ID",{ci:!0}],["AZURE_PIPELINES","SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"],["AZURE_STATIC","INPUT_AZURE_STATIC_WEB_APPS_API_TOKEN"],["APPCIRCLE","AC_APPCIRCLE"],["BAMBOO","bamboo_planKey"],["BITBUCKET","BITBUCKET_COMMIT"],["BITRISE","BITRISE_IO"],["BUDDY","BUDDY_WORKSPACE_ID"],["BUILDKITE"],["CIRCLE","CIRCLECI"],["CIRRUS","CIRRUS_CI"],["CLOUDFLARE_PAGES","CF_PAGES",{ci:!0}],["CODEBUILD","CODEBUILD_BUILD_ARN"],["CODEFRESH","CF_BUILD_ID"],["DRONE"],["DRONE","DRONE_BUILD_EVENT"],["DSARI"],["GITHUB_ACTIONS"],["GITLAB","GITLAB_CI"],["GITLAB","CI_MERGE_REQUEST_ID"],["GOCD","GO_PIPELINE_LABEL"],["LAYERCI"],["HUDSON","HUDSON_URL"],["JENKINS","JENKINS_URL"],["MAGNUM"],["NETLIFY"],["NETLIFY","NETLIFY_LOCAL",{ci:!1}],["NEVERCODE"],["RENDER"],["SAIL","SAILCI"],["SEMAPHORE"],["SCREWDRIVER"],["SHIPPABLE"],["SOLANO","TDDIUM"],["STRIDER"],["TEAMCITY","TEAMCITY_VERSION"],["TRAVIS"],["VERCEL","NOW_BUILDER"],["VERCEL","VERCEL",{ci:!1}],["VERCEL","VERCEL_ENV",{ci:!1}],["APPCENTER","APPCENTER_BUILD_ID"],["CODESANDBOX","CODESANDBOX_SSE",{ci:!1}],["STACKBLITZ"],["STORMKIT"],["CLEAVR"],["ZEABUR"],["CODESPHERE","CODESPHERE_APP_ID",{ci:!0}],["RAILWAY","RAILWAY_PROJECT_ID"],["RAILWAY","RAILWAY_SERVICE_ID"],["DENO-DEPLOY","DENO_DEPLOYMENT_ID"],["FIREBASE_APP_HOSTING","FIREBASE_APP_HOSTING",{ci:!0}]];function p(){if(globalThis.process?.env)for(const e of B){const o=e[1]||e[0];if(globalThis.process?.env[o])return {name:e[0].toLowerCase(),...e[2]}}return globalThis.process?.env?.SHELL==="/bin/jsh"&&globalThis.process?.versions?.webcontainer?{name:"stackblitz",ci:!1}:{name:"",ci:!1}}const l=p(),d=l.name;function n(e){return e?e!=="false":!1}const I=globalThis.process?.platform||"",T=n(s.CI)||l.ci!==!1,R=n(globalThis.process?.stdout&&globalThis.process?.stdout.isTTY);n(s.DEBUG);const A=t==="test"||n(s.TEST);n(s.MINIMAL)||T||A||!R;const _=/^win/i.test(I);!n(s.NO_COLOR)&&(n(s.FORCE_COLOR)||(R||_)&&s.TERM!=="dumb"||T);const C=(globalThis.process?.versions?.node||"").replace(/^v/,"")||null;Number(C?.split(".")[0])||null;const y=globalThis.process||Object.create(null),c={versions:{}};new Proxy(y,{get(e,o){if(o==="env")return s;if(o in e)return e[o];if(o in c)return c[o]}});const L=globalThis.process?.release?.name==="node",a=!!globalThis.Bun||!!globalThis.process?.versions?.bun,D=!!globalThis.Deno,O=!!globalThis.fastly,S=!!globalThis.Netlify,N=!!globalThis.EdgeRuntime,P=globalThis.navigator?.userAgent==="Cloudflare-Workers",F=[[S,"netlify"],[N,"edge-light"],[P,"workerd"],[O,"fastly"],[D,"deno"],[a,"bun"],[L,"node"]];function G(){const e=F.find(o=>o[0]);if(e)return {name:e[1]}}const u=G();u?.name||"";
-
 const scheduledTasks = false;
 
 const tasks = {
@@ -1016,6 +1016,8 @@ async function runTask(name, {
     delete __runningTasks__[name];
   }
 }
+
+const r=Object.create(null),i=e=>globalThis.process?.env||globalThis._importMeta_.env||globalThis.Deno?.env.toObject()||globalThis.__env__||(e?r:globalThis),s=new Proxy(r,{get(e,o){return i()[o]??r[o]},has(e,o){const E=i();return o in E||o in r},set(e,o,E){const b=i(!0);return b[o]=E,!0},deleteProperty(e,o){if(!o)return !1;const E=i(!0);return delete E[o],!0},ownKeys(){const e=i(!0);return Object.keys(e)}}),t=typeof process<"u"&&process.env&&"development"||"",B=[["APPVEYOR"],["AWS_AMPLIFY","AWS_APP_ID",{ci:!0}],["AZURE_PIPELINES","SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"],["AZURE_STATIC","INPUT_AZURE_STATIC_WEB_APPS_API_TOKEN"],["APPCIRCLE","AC_APPCIRCLE"],["BAMBOO","bamboo_planKey"],["BITBUCKET","BITBUCKET_COMMIT"],["BITRISE","BITRISE_IO"],["BUDDY","BUDDY_WORKSPACE_ID"],["BUILDKITE"],["CIRCLE","CIRCLECI"],["CIRRUS","CIRRUS_CI"],["CLOUDFLARE_PAGES","CF_PAGES",{ci:!0}],["CODEBUILD","CODEBUILD_BUILD_ARN"],["CODEFRESH","CF_BUILD_ID"],["DRONE"],["DRONE","DRONE_BUILD_EVENT"],["DSARI"],["GITHUB_ACTIONS"],["GITLAB","GITLAB_CI"],["GITLAB","CI_MERGE_REQUEST_ID"],["GOCD","GO_PIPELINE_LABEL"],["LAYERCI"],["HUDSON","HUDSON_URL"],["JENKINS","JENKINS_URL"],["MAGNUM"],["NETLIFY"],["NETLIFY","NETLIFY_LOCAL",{ci:!1}],["NEVERCODE"],["RENDER"],["SAIL","SAILCI"],["SEMAPHORE"],["SCREWDRIVER"],["SHIPPABLE"],["SOLANO","TDDIUM"],["STRIDER"],["TEAMCITY","TEAMCITY_VERSION"],["TRAVIS"],["VERCEL","NOW_BUILDER"],["VERCEL","VERCEL",{ci:!1}],["VERCEL","VERCEL_ENV",{ci:!1}],["APPCENTER","APPCENTER_BUILD_ID"],["CODESANDBOX","CODESANDBOX_SSE",{ci:!1}],["STACKBLITZ"],["STORMKIT"],["CLEAVR"],["ZEABUR"],["CODESPHERE","CODESPHERE_APP_ID",{ci:!0}],["RAILWAY","RAILWAY_PROJECT_ID"],["RAILWAY","RAILWAY_SERVICE_ID"],["DENO-DEPLOY","DENO_DEPLOYMENT_ID"],["FIREBASE_APP_HOSTING","FIREBASE_APP_HOSTING",{ci:!0}]];function p(){if(globalThis.process?.env)for(const e of B){const o=e[1]||e[0];if(globalThis.process?.env[o])return {name:e[0].toLowerCase(),...e[2]}}return globalThis.process?.env?.SHELL==="/bin/jsh"&&globalThis.process?.versions?.webcontainer?{name:"stackblitz",ci:!1}:{name:"",ci:!1}}const l=p(),d=l.name;function n(e){return e?e!=="false":!1}const I=globalThis.process?.platform||"",T=n(s.CI)||l.ci!==!1,R=n(globalThis.process?.stdout&&globalThis.process?.stdout.isTTY);n(s.DEBUG);const A=t==="test"||n(s.TEST);n(s.MINIMAL)||T||A||!R;const _=/^win/i.test(I);!n(s.NO_COLOR)&&(n(s.FORCE_COLOR)||(R||_)&&s.TERM!=="dumb"||T);const C=(globalThis.process?.versions?.node||"").replace(/^v/,"")||null;Number(C?.split(".")[0])||null;const y=globalThis.process||Object.create(null),c={versions:{}};new Proxy(y,{get(e,o){if(o==="env")return s;if(o in e)return e[o];if(o in c)return c[o]}});const L=globalThis.process?.release?.name==="node",a=!!globalThis.Bun||!!globalThis.process?.versions?.bun,D=!!globalThis.Deno,O=!!globalThis.fastly,S=!!globalThis.Netlify,N=!!globalThis.EdgeRuntime,P=globalThis.navigator?.userAgent==="Cloudflare-Workers",F=[[S,"netlify"],[N,"edge-light"],[P,"workerd"],[O,"fastly"],[D,"deno"],[a,"bun"],[L,"node"]];function G(){const e=F.find(o=>o[0]);if(e)return {name:e[1]}}const u=G();u?.name||"";
 
 const nitroApp = useNitroApp();
 const server = new Server(toNodeListener(nitroApp.h3App));
@@ -1085,6 +1087,66 @@ const template$1 = (messages) => {
 const errorDev = /*#__PURE__*/Object.freeze({
   __proto__: null,
   template: template$1
+});
+
+useRuntimeConfig();
+const moods = defineEventHandler(async (event) => {
+  console.log("API\u8DEF\u7531\u88AB\u8C03\u7528");
+  const config2 = useRuntimeConfig();
+  console.log("\u8FD0\u884C\u65F6\u914D\u7F6E:", {
+    apiUrl: config2.public.apiUrl,
+    hasToken: !!config2.public.apiToken
+  });
+  try {
+    const body = await readBody(event);
+    console.log("\u8BF7\u6C42\u4F53:", body);
+    if (!config2.public.apiUrl) {
+      throw new Error("API URL\u672A\u914D\u7F6E");
+    }
+    if (!config2.public.apiToken) {
+      throw new Error("API Token\u672A\u914D\u7F6E");
+    }
+    console.log("\u51C6\u5907\u53D1\u9001\u8BF7\u6C42\u5230:", `${config2.public.apiUrl}/query`);
+    const response = await fetch(`${config2.public.apiUrl}/query`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${config2.public.apiToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+    console.log("\u6536\u5230\u54CD\u5E94:", {
+      status: response.status,
+      statusText: response.statusText
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("API\u9519\u8BEF\u54CD\u5E94:", {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorText
+      });
+      throw new Error(`API\u8BF7\u6C42\u5931\u8D25: ${response.status} ${errorText}`);
+    }
+    const data = await response.json();
+    console.log("API\u54CD\u5E94\u6570\u636E:", data);
+    return data;
+  } catch (error) {
+    console.error("\u670D\u52A1\u5668\u7AEF\u9519\u8BEF:", error instanceof Error ? {
+      message: error.message,
+      stack: error.stack
+    } : error);
+    throw createError({
+      statusCode: 500,
+      message: error instanceof Error ? error.message : "Internal Server Error",
+      stack: error instanceof Error ? error.stack : void 0
+    });
+  }
+});
+
+const moods$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: moods
 });
 
 const Vue3 = version[0] === "3";
