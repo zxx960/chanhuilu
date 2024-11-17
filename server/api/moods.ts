@@ -1,55 +1,60 @@
-const config = useRuntimeConfig()
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://fseftsqlgaafkfrkrdsn.supabase.co'
+const supabaseKey = process.env.SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default defineEventHandler(async (event) => {
   console.log('API路由被调用')
-  
-  const config = useRuntimeConfig()
-  console.log('运行时配置:', {
-    apiUrl: config.public.apiUrl,
-    hasToken: !!config.public.apiToken
-  })
 
   try {
     const body = await readBody(event)
     console.log('请求体:', body)
 
-    if (!config.public.apiUrl) {
-      throw new Error('API URL未配置')
+    if (!supabaseKey) {
+      throw new Error('Supabase Key未配置')
     }
 
-    if (!config.public.apiToken) {
-      throw new Error('API Token未配置')
+    // 解析SQL语句类型
+    const sql = body.sql.trim().toUpperCase()
+    let response
+
+    if (sql.startsWith('SELECT')) {
+      response = await supabase
+        .from('info')
+        .select('*')
+        .order('created_at', { ascending: false })
+    } 
+    else if (sql.startsWith('INSERT')) {
+      const content = body.sql.match(/VALUES \('([^']+)'/)[1]
+      response = await supabase
+        .from('info')
+        .insert([{ content }])
+        .select()
+    }
+    else if (sql.startsWith('UPDATE')) {
+      const id = body.sql.match(/WHERE id = (\d+)/)[1]
+      const { data: mood } = await supabase
+        .from('info')
+        .select('likes')
+        .eq('id', id)
+        .single()
+
+      response = await supabase
+        .from('info')
+        .update({ likes: (mood?.likes || 0) + 1 })
+        .eq('id', id)
+        .select()
     }
 
-    console.log('准备发送请求到:', `${config.public.apiUrl}/query`)
-    
-    const response = await fetch(`${config.public.apiUrl}/query`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${config.public.apiToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body)
-    })
-
-    console.log('收到响应:', {
-      status: response.status,
-      statusText: response.statusText
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('API错误响应:', {
-        status: response.status,
-        statusText: response.statusText,
-        error: errorText
-      })
-      throw new Error(`API请求失败: ${response.status} ${errorText}`)
+    if (response.error) {
+      throw response.error
     }
 
-    const data = await response.json()
-    console.log('API响应数据:', data)
-    return data
+    console.log('API响应数据:', response.data)
+    return {
+      result: response.data
+    }
   } catch (error) {
     console.error('服务器端错误:', error instanceof Error ? {
       message: error.message,

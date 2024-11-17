@@ -70,8 +70,8 @@ const { data, pending, refresh } = await useFetch('/api/moods', {
 
 // 监听data变化并更新moods
 watch(data, (newData) => {
-  if (newData?.result?.[0]?.results) {
-    moods.value = newData.result[0].results
+  if (newData?.result) {
+    moods.value = newData.result
     console.log('处理后的数据:', moods.value)
   }
 }, { immediate: true })
