@@ -84,7 +84,7 @@ async function addPost() {
     const response = await $fetch('/api/moods', {
       method: 'POST',
       body: {
-        sql: `INSERT INTO data (content) VALUES ('${newPost.value}') RETURNING *`
+        sql: `INSERT INTO data (content, created_at) VALUES ('${newPost.value}', CURRENT_TIMESTAMP) RETURNING *`
       }
     })
     
