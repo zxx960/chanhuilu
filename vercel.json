@@ -1,0 +1,5 @@
+{
+    "ignoreBuildStep": {
+      ".well-known/vercel/microfrontend-routing": true
+    }
+  }
