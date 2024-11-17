@@ -64,7 +64,7 @@ const moods = ref([])
 const { data, pending, refresh } = await useFetch('/api/moods', {
   method: 'POST',
   body: {
-    sql: 'SELECT * FROM data ORDER BY id DESC'
+    sql: 'SELECT * FROM info ORDER BY created_at DESC'
   }
 })
 
@@ -84,7 +84,7 @@ async function addPost() {
     const response = await $fetch('/api/moods', {
       method: 'POST',
       body: {
-        sql: `INSERT INTO data (content, created_at) VALUES ('${newPost.value}', CURRENT_TIMESTAMP) RETURNING *`
+        sql: `INSERT INTO info (content) VALUES ('${newPost.value}') RETURNING *`
       }
     })
     
@@ -104,7 +104,7 @@ async function likeMood(id: number) {
     const response = await $fetch('/api/moods', {
       method: 'POST',
       body: {
-        sql: `UPDATE data SET likes = likes + 1 WHERE id = ${id} RETURNING *`
+        sql: `UPDATE info SET likes = COALESCE(likes, 0) + 1 WHERE id = ${id} RETURNING *`
       }
     })
     
