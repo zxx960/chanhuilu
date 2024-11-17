@@ -1,5 +1,12 @@
 {
-    "ignoreBuildStep": {
-      ".well-known/vercel/microfrontend-routing": true
-    }
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
+      },
+      {
+        "handle": "filesystem"
+      }
+    ]
   }
+  
